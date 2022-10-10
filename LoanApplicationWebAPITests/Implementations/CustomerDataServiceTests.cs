@@ -5,14 +5,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LoanApplicationWCFService.Models;
+using NPOI.SS.Formula.Functions;
+using Xunit;
 
 namespace DataServices.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class CustomerDataServiceTests
     {
-        [TestMethod()]
-        public void AddCustomerTest()
+        public CustomerDataServiceTests()
+        {
+
+        }
+
+        [Fact]
+        public void AddCustomerTest(CustomerModel customer)
         {
             Assert.Fail();
         }
