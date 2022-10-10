@@ -1,5 +1,6 @@
 ﻿using LoanApplicationWCFService.Models;
 using LoanApplicationWebAPI.Implementations;
+using LoanApplicationWebAPI.PasswordProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -37,6 +38,8 @@ namespace LoanApplicationWebAPI.Controllers
         [HttpPost]
         public void AddCustomer(CustomerModel customer)
         {
+            var password = PasswordEncryptionAndDecryption.EncodePasswordToBase64(customer.Password);
+            customer.Password = password;
             customerDataService.AddCustomer(customer);
         }
 
@@ -45,6 +48,8 @@ namespace LoanApplicationWebAPI.Controllers
         public void UpdateCustomer(CustomerModel customer, Guid id)
         {
             customer.Id = id;
+            var password = PasswordEncryptionAndDecryption.EncodePasswordToBase64(customer.Password);
+            customer.Password = password;
             customerDataService.UpdateCustomer(customer, id);
         }
 
@@ -90,6 +95,7 @@ namespace LoanApplicationWebAPI.Controllers
             var allCustomers = GetAllCustomers();
             if (allCustomers != null && allCustomers.Length != 0)
             {
+                password = PasswordEncryptionAndDecryption.EncodePasswordToBase64(password);
                 isValidUser = allCustomers.Any(customer => customer.EmailAddress.Equals(emailId, StringComparison.CurrentCultureIgnoreCase) &&
                 customer.Password.Equals(password));
             }

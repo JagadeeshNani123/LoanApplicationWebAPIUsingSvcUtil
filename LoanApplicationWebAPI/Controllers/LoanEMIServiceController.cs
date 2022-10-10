@@ -18,10 +18,11 @@ namespace LoanApplicationWebAPI.Controllers
         }
         // GET: api/<loanServiceController>
         [HttpGet]
-        public LoanEMIModel[] GetAllloans()
+        public LoanEMIModel[] GetAllLoansEmisById(Guid id)
         {
-            var allLoans = loanEMIDataService.GetAllLoanEMIs();
-            return allLoans;
+            var allLoanEMIs = loanEMIDataService.GetAllLoanEMIs();
+            var customerEMIs = allLoanEMIs.Where(all => all.LoanId == id).ToArray();
+            return customerEMIs;
         }
 
         // GET api/<loanServiceController>/5
@@ -52,6 +53,20 @@ namespace LoanApplicationWebAPI.Controllers
         public void DeleteLoanEMI(Guid id)
         {
             loanEMIDataService.DeleteLoanEMI(id);
+        }
+
+        [HttpPost]
+        [Route("AddEMI")]
+        public void ModifyLoanAndAddLoanEMI(LoanModel loan)
+        {
+            var emiModel = new LoanEMIModel();
+            emiModel.EMIId = Guid.NewGuid();
+            emiModel.LoanId = loan.LoanId;
+            emiModel.EMIAmout = loan.LoanAmount / loan.LoanTenure;
+            emiModel.EMIPaymentDate = DateTime.Now.ToShortDateString();
+            var loanEMIs = GetAllLoansEmisById(loan.LoanId);
+            emiModel.EMINo = loanEMIs.Length+ 1;
+            AddLoanEMI(emiModel);
         }
     }
 }
