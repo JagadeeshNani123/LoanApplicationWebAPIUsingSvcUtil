@@ -35,7 +35,7 @@ namespace LoanApplicationWebAPI.Controllers
 
         // POST api/<loanServiceController>
         [HttpPost]
-        public void AddLoanEMI(LoanEMIModel loanEMI)
+        public void AddLoanEMI([FromBody]LoanEMIModel loanEMI)
         {
             loanEMIDataService.AddLoanEMI(loanEMI);
         }

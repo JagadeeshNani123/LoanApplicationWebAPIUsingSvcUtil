@@ -1,0 +1,171 @@
+{
+  "Routes": [
+    {
+      //https://localhost:44311/api/BankDetailsService
+      //https://localhost:44311/api/CustomerService
+      "DownstreamPathTemplate": "/api/CustomerService",
+      "DownstreamScheme": "https",
+      "downstreamHttpMethod": "Get",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "44311"
+
+        }
+      ],
+      "UpstreamPathTemplate": "/Getusers",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      //https://localhost:44369/api/CustomerService
+      "DownstreamPathTemplate": "/api/CustomerService",
+      "DownstreamScheme": "https",
+      "downstreamHttpMethod": "Post",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "44311"
+
+        }
+      ],
+      "UpstreamPathTemplate": "/AddCustomer",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      //https://localhost:44369/api/CustomerService/27E94A91-3B81-41EA-BEA5-5F8E52F138E2
+      "DownstreamPathTemplate": "/api/CustomerService/{id}",
+      "DownstreamScheme": "https",
+      "downstreamHttpMethod": "Get",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "44311"
+
+        }
+      ],
+      "UpstreamPathTemplate": "/SearchCustomer/{id}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      //https://localhost:44311/api/CustomerService
+      "DownstreamPathTemplate": "/IsValidUser/{emailId}/{password}",
+      "DownstreamScheme": "https",
+      "downstreamHttpMethod": "Get",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "44311"
+
+        }
+      ],
+      "UpstreamPathTemplate": "/Login/{emailId}/{password}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      //https://localhost:44311/api/LoanService
+      "DownstreamPathTemplate": "/api/LoanService",
+      "DownstreamScheme": "https",
+      "downstreamHttpMethod": "Get",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "44311"
+
+        }
+      ],
+      "UpstreamPathTemplate": "/GetLoans",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      //https://localhost:44311/api/LoanService
+      "DownstreamPathTemplate": "/api/LoanService",
+      "DownstreamScheme": "https",
+      "downstreamHttpMethod": "Post",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "44311"
+
+        }
+      ],
+      "UpstreamPathTemplate": "/AddLoan",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      //https://localhost:44311/api/LoanEMIService
+      "DownstreamPathTemplate": "/api/LoanEMIService",
+      "DownstreamScheme": "https",
+      "downstreamHttpMethod": "Get",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "44311"
+
+        }
+      ],
+      "UpstreamPathTemplate": "/GetAllLoanEMIs",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      //https://localhost:44311/api/BankDetailsService
+      "DownstreamPathTemplate": "/api/LoanEMIService",
+      "DownstreamScheme": "https",
+      "downstreamHttpMethod": "Post",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "44311"
+
+        }
+      ],
+      "UpstreamPathTemplate": "/AddLoanEMI",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      //https://localhost:44311/api/BankDetailsService
+      "DownstreamPathTemplate": "/api/BankDetailsService",
+      "DownstreamScheme": "https",
+      "downstreamHttpMethod": "Get",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "44311"
+
+        }
+      ],
+      "UpstreamPathTemplate": "/GetAllBankDetails",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      //https://localhost:44311/api/BankDetailsService
+      "DownstreamPathTemplate": "/api/BankDetailsService",
+      "DownstreamScheme": "https",
+      "downstreamHttpMethod": "Post",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "44311"
+
+        }
+      ],
+      "UpstreamPathTemplate": "/AddBankDetails",
+      "UpstreamHttpMethod": [ "Post" ]
+    }
+
+
+
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:7169/"
+  }
+}

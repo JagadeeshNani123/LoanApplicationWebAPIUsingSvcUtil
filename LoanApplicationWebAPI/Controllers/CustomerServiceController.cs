@@ -36,7 +36,7 @@ namespace LoanApplicationWebAPI.Controllers
 
         // POST api/<CustomerServiceController>
         [HttpPost]
-        public void AddCustomer(CustomerModel customer)
+        public void AddCustomer([FromBody]CustomerModel customer)
         {
             var password = PasswordEncryptionAndDecryption.EncodePasswordToBase64(customer.Password);
             customer.Password = password;

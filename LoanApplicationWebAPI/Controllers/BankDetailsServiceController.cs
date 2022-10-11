@@ -35,7 +35,7 @@ namespace LoanApplicationWebAPI.Controllers
 
         // POST api/<loanServiceController>
         [HttpPost]
-        public void AddBankDetails(BankDetailsModel banksDetails)
+        public void AddBankDetails([FromBody] BankDetailsModel banksDetails)
         {
             bankDetailsDataService.AddBankDetails(banksDetails);
         }
