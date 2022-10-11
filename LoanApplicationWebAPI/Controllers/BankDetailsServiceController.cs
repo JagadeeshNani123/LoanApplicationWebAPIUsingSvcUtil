@@ -14,7 +14,8 @@ namespace LoanApplicationWebAPI.Controllers
         private readonly BankDetailsDataService bankDetailsDataService;
         public BankDetailsServiceController(IConfiguration configuration)
         {
-            bankDetailsDataService = new BankDetailsDataService(configuration);
+            var baseAddress = configuration["BankDetailsService:BaseAddress"];
+            bankDetailsDataService = new BankDetailsDataService(baseAddress);
 
         }
         // GET: api/<loanServiceController>

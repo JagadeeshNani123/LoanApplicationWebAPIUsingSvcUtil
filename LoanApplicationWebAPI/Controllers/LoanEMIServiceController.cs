@@ -13,7 +13,8 @@ namespace LoanApplicationWebAPI.Controllers
         private readonly LoanEMIDataService loanEMIDataService;
         public LoanEMIServiceController(IConfiguration configuration)
         {
-            loanEMIDataService = new LoanEMIDataService(configuration);
+            var baseAddress = configuration["LoanEMIService:BaseAddress"];
+            loanEMIDataService = new LoanEMIDataService(baseAddress);
 
         }
         // GET: api/<loanServiceController>

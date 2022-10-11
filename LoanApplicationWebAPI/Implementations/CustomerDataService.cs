@@ -7,11 +7,8 @@ namespace LoanApplicationWebAPI.Implementations
     public class CustomerDataService: ICustomerDataService
     {
         private readonly CustomerServiceClient customerclient;
-        public IConfiguration Configuration { get; }
-        public CustomerDataService(IConfiguration configuration)
+        public CustomerDataService(string baseAddress)
         {
-            Configuration = configuration;
-            var baseAddress = configuration["CustomerService:BasAddress"];
             customerclient = new CustomerServiceClient(baseAddress);
 
         }
@@ -42,6 +39,20 @@ namespace LoanApplicationWebAPI.Implementations
         public void DeleteCustomer(Guid id)
         {
             customerclient.DeleteCustomer(id);
+        }
+
+        public bool IsInsertedCustomer(CustomerModel customer)
+        {
+            var isInserted=true;
+            try
+            {
+                customerclient.AddCustomer(customer);
+            }
+            catch(Exception e)
+            {
+                isInserted = false;
+            }
+            return isInserted;
         }
     }
 }

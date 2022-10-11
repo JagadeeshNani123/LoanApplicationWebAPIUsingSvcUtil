@@ -6,13 +6,9 @@ namespace LoanApplicationWebAPI.Implementations
     public class LoanEMIDataService : ILoanEMIDataService
     {
         private readonly LoanEMIServiceClient loanEMIServiceClient;
-        public IConfiguration Configuration { get; }
-        public LoanEMIDataService(IConfiguration configuration)
+        public LoanEMIDataService(string baseAddress)
         {
-            Configuration = configuration;
-            var baseAddress = configuration["LoanEMIService:BasAddress"];
             loanEMIServiceClient = new LoanEMIServiceClient(baseAddress);
-
         }
         public void AddLoanEMI(LoanEMIModel loanEMI)
         {

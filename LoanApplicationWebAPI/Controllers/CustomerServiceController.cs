@@ -15,7 +15,8 @@ namespace LoanApplicationWebAPI.Controllers
         private readonly CustomerDataService customerDataService;
         public CustomerServiceController(IConfiguration configuration)
         {
-           customerDataService = new CustomerDataService(configuration);
+            var baseAddress = configuration["CustomerService:BaseAddress"];
+            customerDataService = new CustomerDataService(baseAddress);
 
         }
         // GET: api/<CustomerServiceController>

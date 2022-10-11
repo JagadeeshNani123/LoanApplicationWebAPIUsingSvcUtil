@@ -6,13 +6,9 @@ namespace LoanApplicationWebAPI.Implementations
     public class BankDetailsDataService: IBankDetailsDataService
     {
         private readonly BankDetailsServiceClient bankDetailsServiceClient;
-        public IConfiguration Configuration { get; }
-        public BankDetailsDataService(IConfiguration configuration)
+        public BankDetailsDataService(string baseAddress)
         {
-            Configuration = configuration;
-            var baseAddress = configuration["BankDetailsService:BasAddress"];
             bankDetailsServiceClient = new BankDetailsServiceClient(baseAddress);
-
         }
         public BankDetailsModel[] GetAllBankDetails()
         {
@@ -35,6 +31,18 @@ namespace LoanApplicationWebAPI.Implementations
         {
             bankDetailsServiceClient.DeleteBankDetails(id);
         }
-
+        public bool IsInsertedBankDetails(BankDetailsModel bankDetails)
+        {
+            var isInserted = true;
+            try
+            {
+                bankDetailsServiceClient.AddBankDetails(bankDetails);
+            }
+            catch (Exception e)
+            {
+                isInserted = false;
+            }
+            return isInserted;
+        }
     }
 }

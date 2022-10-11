@@ -6,11 +6,9 @@ namespace LoanApplicationWebAPI.Implementations
     public class LoanDataService: ILoanDataService
     {
         private readonly LoanServiceClient loanServiceClient;
-        public IConfiguration Configuration { get; }
-        public LoanDataService(IConfiguration configuration)
+        public LoanDataService(string baseAddress)
         {
-            Configuration = configuration;
-            var baseAddress = configuration["LoanService:BasAddress"];
+            
             loanServiceClient = new LoanServiceClient(baseAddress);
 
         }
@@ -41,6 +39,20 @@ namespace LoanApplicationWebAPI.Implementations
         public void DeleteLoan(Guid id)
         {
             loanServiceClient.DeleteLoan(id);
+        }
+
+        public bool IsInsertedLoan(LoanModel loan)
+        {
+            var isInserted = true;
+            try
+            {
+                loanServiceClient.AddLoan(loan);
+            }
+            catch (Exception e)
+            {
+                isInserted = false;
+            }
+            return isInserted;
         }
     }
 }
