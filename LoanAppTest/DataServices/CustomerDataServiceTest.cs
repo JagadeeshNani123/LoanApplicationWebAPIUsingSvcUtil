@@ -18,19 +18,27 @@ namespace LoanAppTest.DataServices
    
     public class CustomerDataServiceTest
     {
-        private readonly IFixture _fixture;
-        private readonly Mock<ICustomerDataService> _customerService;
-        private readonly CustomerDataService serviceClass;
-        private readonly string baseUrl = "http://localhost:53564/WCFServices/CustomerService/CustomerService.svc";
+        private readonly Mock<ICustomerDataService> _customerDataService;
         public CustomerDataServiceTest()
         {
-            _fixture = new Fixture();
-            _customerService = new Mock<ICustomerDataService>();
-            var config = new Mock<IConfiguration>();
-            var mockConfigSection = new Mock<IConfigurationSection>();
-            mockConfigSection.SetupGet(m => m[It.Is<string>(s => s == "BasAddress")]).Returns(baseUrl);
-            config.Setup(s=> s.GetSection(It.Is<string>(s => s == "CustomerService:BasAddress"))).Returns(mockConfigSection.Object);
-            serviceClass = new CustomerDataService(baseUrl);
+            _customerDataService = new Mock<ICustomerDataService>();
+        }
+
+        [Fact]
+        public void GetCustmorDetailsById()
+        {
+
+            //Arrange
+
+            _customerDataService.Setup(bs => bs.GetCustomerById(It.IsAny<Guid>())).Returns(new CustomerModel());
+
+            //Act
+            var result = _customerDataService.Object.GetCustomerById(Guid.NewGuid());
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Should().BeAssignableTo<CustomerModel>();
+
         }
 
         [Fact]
@@ -38,14 +46,15 @@ namespace LoanAppTest.DataServices
         {
 
             //Arrange
-            var fackCustomersArray = _fixture.Create<CustomerModel[]>();
-            _customerService.Setup(service=> service.GetAllCustomers()).Returns(fackCustomersArray);
+
+            
+
+            _customerDataService.Setup(bs => bs.GetAllCustomers()).Returns(new CustomerModel[1]);
 
             //Act
-            var result = serviceClass.GetAllCustomers();
+            var result = _customerDataService.Object.GetAllCustomers();
 
             //Assert
-            result.Should().NotBeNull();
             result.Should().BeAssignableTo<CustomerModel[]>();
 
         }
@@ -56,37 +65,37 @@ namespace LoanAppTest.DataServices
 
             //Arrange
 
-         Random random = new Random();
+           
 
-
-        string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        string emailId = new string(Enumerable.Repeat(chars, 5)
-            .Select(s => s[random.Next(s.Length)]).ToArray());
-
-        var customer = new CustomerModel
-            {
-                Id = Guid.NewGuid(),
-                FirstName = "Test1",
-                LastName = "Test2",
-                EmailAddress = emailId+"Test@mail.com",
-                Password = "abcdefgh",
-                Income = 70000,
-                DateOfBirth = "21-01-1998",
-                PanCardNumber = "1234567890",
-                AddressProof = "adhar",
-                AddressProofNumber = "1234567890",
-                EmploymentType = "direct1234",
-                MaritialStatus = "single",
-                PhoneNumber = "1234567890"
-            };
-            _customerService.Setup(service => service.AddCustomer(customer));
+            _customerDataService.Setup(bs => bs.IsInsertedCustomer(It.IsAny<CustomerModel>())).Returns(true);
 
             //Act
-             var result = serviceClass.IsInsertedCustomer(customer);
+            var result = _customerDataService.Object.IsInsertedCustomer(new CustomerModel());
 
             //Assert
             result.Should().BeTrue();
 
         }
+
+
+        [Fact]
+        public void DeleteBankdetails()
+        {
+
+            //Arrange
+
+           
+            _customerDataService.Setup(bs => bs.IsDeletedCustomer(It.IsAny<Guid>())).Returns(true);
+
+
+            //Act
+            var result = _customerDataService.Object.IsDeletedCustomer(Guid.NewGuid());
+
+            //Assert
+            result.Should().BeTrue();
+
+        }
+
+
     }
 }

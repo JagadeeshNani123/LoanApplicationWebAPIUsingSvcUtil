@@ -44,5 +44,35 @@ namespace LoanApplicationWebAPI.Implementations
             }
             return isInserted;
         }
+
+       
+
+        public bool IsUpdatedBankDetails(Guid id, BankDetailsModel bankDetails)
+        {
+            var isInserted = true;
+            try
+            {
+                bankDetailsServiceClient.UpdateBankDetails(bankDetails,id);
+            }
+            catch (Exception e)
+            {
+                isInserted = false;
+            }
+            return isInserted;
+        }
+
+        public bool IsDeletedBankDetails(Guid id)
+        {
+            var isInserted = true;
+            try
+            {
+                bankDetailsServiceClient.DeleteBankDetails(id);
+            }
+            catch (Exception e)
+            {
+                isInserted = false;
+            }
+            return isInserted;
+        }
     }
 }

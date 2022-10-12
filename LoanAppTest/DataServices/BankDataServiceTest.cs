@@ -17,40 +17,31 @@ namespace LoanAppTest.DataServices
 {
     public class BankDataServiceTest
     {
-        private readonly IFixture _fixture;
         private readonly Mock<IBankDetailsDataService> _bankDetailsService;
-        private readonly BankDetailsDataService serviceClass;
-        private readonly string baseUrl = "http://localhost:53564/WCFServices/BankDetailsService/BankDetailsService.svc";
         public BankDataServiceTest()
         {
-            _fixture = new Fixture();
             _bankDetailsService = new Mock<IBankDetailsDataService>();
-            var config = new Mock<IConfiguration>();
-            var mockConfigSection = new Mock<IConfigurationSection>();
-            mockConfigSection.SetupGet(m => m[It.Is<string>(s => s == "BaseAddress")]).Returns(baseUrl);
-            config.Setup(s => s.GetSection(It.Is<string>(s => s == "BankService:BaseAddress"))).Returns(mockConfigSection.Object);
-            serviceClass = new BankDetailsDataService(baseUrl);
         }
 
         [Fact]
-        public void GetAllBanks()
+        public void GetBankDetailsById()
         {
 
             //Arrange
-            var fackBanksArray = _fixture.Create<BankDetailsModel[]>();
-            _bankDetailsService.Setup(service => service.GetAllBankDetails()).Returns(fackBanksArray);
+           
+            _bankDetailsService.Setup(bs => bs.GetBankDetailsById(It.IsAny<Guid>())).Returns(new BankDetailsModel());
 
             //Act
-            var result = serviceClass.GetAllBankDetails();
+            var result = _bankDetailsService.Object.GetBankDetailsById(Guid.NewGuid());
 
             //Assert
             result.Should().NotBeNull();
-            result.Should().BeAssignableTo<BankDetailsModel[]>();
+            result.Should().BeAssignableTo<BankDetailsModel>();
 
         }
 
         [Fact]
-        public void InsertBankDetalis()
+        public void GetAllBankDetails()
         {
 
             //Arrange
@@ -64,14 +55,70 @@ namespace LoanAppTest.DataServices
                 IFSCCode ="SBI0890"
 
             };
-            _bankDetailsService.Setup(service => service.AddBankDetails(bankdetails));
+
+            _bankDetailsService.Setup(bs => bs.GetAllBankDetails()).Returns(new BankDetailsModel[1]);
 
             //Act
-            var result = serviceClass.IsInsertedBankDetails(bankdetails);
+            var result = _bankDetailsService.Object.GetAllBankDetails();
+
+            //Assert
+            result.Should().BeAssignableTo<BankDetailsModel[]>();
+
+        }
+
+        [Fact]
+        public void InsertBankDetails()
+        {
+
+            //Arrange
+
+            var bankdetails = new BankDetailsModel
+            {
+                BankId = Guid.NewGuid(),
+                BankAccountNumber = "1234567890",
+                BankName = "SBI",
+                CustomerId = new Guid("11F4CB09-E9C4-42F6-A65A-4D072463614D"),
+                IFSCCode = "SBI0890"
+
+            };
+
+            _bankDetailsService.Setup(bs => bs.IsInsertedBankDetails(It.IsAny<BankDetailsModel>())).Returns(true);
+
+            //Act
+            var result = _bankDetailsService.Object.IsInsertedBankDetails(bankdetails);
 
             //Assert
             result.Should().BeTrue();
 
         }
+
+
+        [Fact]
+        public void DeleteBankdetails()
+        {
+
+            //Arrange
+
+            var bankdetails = new BankDetailsModel
+            {
+                BankId = Guid.NewGuid(),
+                BankAccountNumber = "1234567890",
+                BankName = "SBI",
+                CustomerId = new Guid("11F4CB09-E9C4-42F6-A65A-4D072463614D"),
+                IFSCCode = "SBI0890"
+
+            };
+            _bankDetailsService.Setup(bs => bs.IsDeletedBankDetails(It.IsAny<Guid>())).Returns(true);
+
+
+            //Act
+            var result = _bankDetailsService.Object.IsDeletedBankDetails(bankdetails.CustomerId);
+
+            //Assert
+            result.Should().BeTrue();
+
+        }
+
+       
     }
 }

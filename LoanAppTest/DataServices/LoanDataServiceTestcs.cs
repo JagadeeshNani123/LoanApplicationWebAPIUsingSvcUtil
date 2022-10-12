@@ -17,19 +17,27 @@ namespace LoanAppTest.DataServices
 {
     public class LoanDataServiceTestcs
     {
-        private readonly IFixture _fixture;
-        private readonly Mock<ILoanDataService> _loanService;
-        private readonly LoanDataService serviceClass;
-        string baseUrl = "http://localhost:53564/WCFServices/LoanService/LoanService.svc";
+        private readonly Mock<ILoanDataService> _loanDataService;
         public LoanDataServiceTestcs()
         {
-            _fixture = new Fixture();
-            _loanService = new Mock<ILoanDataService>();
-            var config = new Mock<IConfiguration>();
-            var mockConfigSection = new Mock<IConfigurationSection>();
-            mockConfigSection.SetupGet(m => m[It.Is<string>(s => s == "BasAddress")]).Returns(baseUrl);
-            config.Setup(s => s.GetSection(It.Is<string>(s => s == "LoanService:BasAddress"))).Returns(mockConfigSection.Object);
-            serviceClass = new LoanDataService(baseUrl);
+            _loanDataService = new Mock<ILoanDataService>();
+        }
+
+        [Fact]
+        public void GetLoanDetailsById()
+        {
+
+            //Arrange
+
+            _loanDataService.Setup(bs => bs.GetLoanById(It.IsAny<Guid>())).Returns(new LoanModel());
+
+            //Act
+            var result = _loanDataService.Object.GetLoanById(Guid.NewGuid());
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Should().BeAssignableTo<LoanModel>();
+
         }
 
         [Fact]
@@ -37,14 +45,14 @@ namespace LoanAppTest.DataServices
         {
 
             //Arrange
-            var fackLoansArray = _fixture.Create<LoanModel[]>();
-            _loanService.Setup(service => service.GetAllLoans()).Returns(fackLoansArray);
+
+
+            _loanDataService.Setup(bs => bs.GetAllLoans()).Returns(new LoanModel[1]);
 
             //Act
-            var result = serviceClass.GetAllLoans();
+            var result = _loanDataService.Object.GetAllLoans();
 
             //Assert
-            result.Should().NotBeNull();
             result.Should().BeAssignableTo<LoanModel[]>();
 
         }
@@ -55,31 +63,38 @@ namespace LoanAppTest.DataServices
 
             //Arrange
 
-            Random random = new Random();
 
 
-            string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            string emailId = new string(Enumerable.Repeat(chars, 5)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
-
-            var loan = new LoanModel
-            {
-                LoanId = Guid.NewGuid(),
-                CustomerId = new Guid("11F4CB09-E9C4-42F6-A65A-4D072463614D"),
-                IsActive = true,
-                LoanAmount = 10000,
-                LoanApprovedDate ="12-09-2022",
-                LoanTenure=3,
-                LoanType ="s-t"
-            };
-            _loanService.Setup(service => service.AddLoan(loan));
+            _loanDataService.Setup(bs => bs.IsInsertedLoan(It.IsAny<LoanModel>())).Returns(true);
 
             //Act
-            var result = serviceClass.IsInsertedLoan(loan);
+            var result = _loanDataService.Object.IsInsertedLoan(new LoanModel());
 
             //Assert
             result.Should().BeTrue();
 
         }
+
+
+        [Fact]
+        public void DeleteLoanDetails()
+        {
+
+            //Arrange
+
+
+            _loanDataService.Setup(bs => bs.IsDeletedLoan(It.IsAny<Guid>())).Returns(true);
+
+
+            //Act
+            var result = _loanDataService.Object.IsDeletedLoan(Guid.NewGuid());
+
+            //Assert
+            result.Should().BeTrue();
+
+        }
+
+
     }
 }
+

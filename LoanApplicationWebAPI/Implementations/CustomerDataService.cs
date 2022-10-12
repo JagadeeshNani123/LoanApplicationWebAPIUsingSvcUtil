@@ -54,5 +54,33 @@ namespace LoanApplicationWebAPI.Implementations
             }
             return isInserted;
         }
+
+        public bool IsUpdatedCustomer(Guid id, CustomerModel customer)
+        {
+            var isUpdated = true;
+            try
+            {
+                customerclient.UpdateCustomer(customer, id);
+            }
+            catch (Exception e)
+            {
+                isUpdated = false;
+            }
+            return isUpdated;
+        }
+
+        public bool IsDeletedCustomer(Guid id)
+        {
+            var isDeleted = true;
+            try
+            {
+                customerclient.DeleteCustomer(id);
+            }
+            catch (Exception e)
+            {
+                isDeleted = false;
+            }
+            return isDeleted;
+        }
     }
 }
