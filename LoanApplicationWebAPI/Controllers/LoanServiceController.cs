@@ -1,6 +1,7 @@
 ﻿using LoanApplicationWCFService.Models;
 using LoanApplicationWebAPI.Implementations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using NPOI.SS.Util;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -70,25 +71,17 @@ namespace LoanApplicationWebAPI.Controllers
             return customerLoans;
         }
 
-        [HttpGet]
-        [Route("GetFormattedDate")]
-        public DateTime GetFormattedDate(string dateText)
-        {
-            var date = Convert.ToDateTime(dateText).Date;
-            return date;
-        }
+        
 
         [HttpGet]
-        [Route("GetOverAllLoanAmountOnExistingLoans")]
-        public decimal GetOverAllLoanAmountOnExistingLoans(string id)
+        [Route("IsValidUserToUserToApplyLoan")]
+        public bool IsValidUserToUserToApplyLoan(string dateOfBirth)
         {
-            var allLons = GetAllLoans();
-            var overAllLoanAmount = 0m;
-            if (allLons != null && allLons.Length != 0)
-            {
-                overAllLoanAmount = allLons.Sum(all => all.LoanAmount);
-            }
-            return overAllLoanAmount;
+            var dob = Convert.ToDateTime(dateOfBirth).Date;
+            int age = DateTime.Now.Subtract(dob).Days;
+            age = age / 365;
+            var validUserToUserToApplyLoan = age > 18;
+            return validUserToUserToApplyLoan;
         }
     }
 }

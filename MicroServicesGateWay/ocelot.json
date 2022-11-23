@@ -66,6 +66,22 @@
       "UpstreamHttpMethod": [ "Get" ]
     },
     {
+      //https://localhost:44369/api/CustomerService
+      "DownstreamPathTemplate": "/api/CustomerService/{Id}",
+      "DownstreamScheme": "https",
+      "downstreamHttpMethod": "Put",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "44311"
+
+        }
+      ],
+      "UpstreamPathTemplate": "/UpdateCustomer/{Id}",
+      "UpstreamHttpMethod": [ "Put" ]
+    },
+    {
       //https://localhost:44311/api/LoanService
       "DownstreamPathTemplate": "/api/LoanService",
       "DownstreamScheme": "https",
@@ -95,6 +111,38 @@
         }
       ],
       "UpstreamPathTemplate": "/AddLoan",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      //https://localhost:44311/api/LoanService
+      "DownstreamPathTemplate": "/api/LoanService/{Id}",
+      "DownstreamScheme": "https",
+      "downstreamHttpMethod": "Put",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "44311"
+
+        }
+      ],
+      "UpstreamPathTemplate": "/UpdateLoan/{Id}",
+      "UpstreamHttpMethod": [ "Put" ]
+    },
+    {
+      //https://localhost:44311/api/LoanService
+      "DownstreamPathTemplate": "/api/LoanService",
+      "DownstreamScheme": "https",
+      "downstreamHttpMethod": "Delete",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "44311"
+
+        }
+      ],
+      "UpstreamPathTemplate": "/DeleteLoan/{LoanId}",
       "UpstreamHttpMethod": [ "Post" ]
     },
     {
@@ -128,6 +176,22 @@
       ],
       "UpstreamPathTemplate": "/AddLoanEMI",
       "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      //https://localhost:44311/api/LoanEMIService
+      "DownstreamPathTemplate": "/api/LoanEMIService",
+      "DownstreamScheme": "https",
+      "downstreamHttpMethod": "Get",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "44311"
+
+        }
+      ],
+      "UpstreamPathTemplate": "/TestLoansEMIs",
+      "UpstreamHttpMethod": [ "Get" ]
     },
     {
       //https://localhost:44311/api/BankDetailsService
